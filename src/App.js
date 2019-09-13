@@ -121,6 +121,8 @@ export default class App extends Component {
   });
     // console.log(this.state.contacts)
     this.deleteFields();
+
+
   };
 
 
@@ -148,9 +150,10 @@ export default class App extends Component {
 
   };
 
-  
+
 
   deleteFields = () => {
+    console.log("hey");
     document.getElementById("contactName").value="";
     document.getElementById("address1").value="";
     document.getElementById("address2").value="";
