@@ -1,41 +1,44 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import {Row, Col} from 'reactstrap';
-// inserted comment
 
-/*
-const dummyContacts = [
-  {
-    key:'001',
-    name:'John Smith',
-    address1:'Evergreen Fields 142',
-    address2:'a2',
-    suburb:'Suburb',
-    state:'Springfield',
-    country:'AAA',
-    email:'jsmith@example.com',
-    phone:'1234324',
-    mobile:'2342343'
-  },
-  {
-    key:'002',
-    name:'Will Smith',
-    address1:'Nowhere street 142',
-    address2:'a2',
-    suburb:'Suburb',
-    state:'Your Head',
-    country:'BBB',
-    email:'ws@example.com',
-    phone:'1234324',
-    mobile:'2342343'
-  }
-];*/
+
 
 export default class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      formControls: {
+        name: {
+          value: ''
+        },
+        address1: {
+          value: ''
+        },
+        address2: {
+          value: ''
+        },
+        suburb: {
+          value: ''
+        },
+        state: {
+          value: ''
+        },
+        country: {
+          value: ''
+        },
+        email: {
+          value: ''
+        },
+        phone: {
+          value: ''
+        },
+        mobile: {
+          value: ''
+        }
+      },
+
       contacts: [],
       currentContact: {
         id:'',
@@ -79,19 +82,46 @@ export default class App extends Component {
     }
   } // End Constructor
 
-  /*
-  addContact = (event) => {
-    event.preventDefault();
-    const newContact = this.state.currentContact;
-    // ToDo: validate contact information
-    const newListOfContacts = [this.state.contacts,...,newContact];
+
+  changeHandler = event => {
+    const name = event.target.name;
+    const value = event.target.value;
+
     this.setState({
-      contacts: newListOfContacts,
-      currentContact: {key:'', name:'', address1:'', address2:'', suburb:'', state:'', country:'',
-        email:'', phone:'', mobile:''}
-    })
+      formControls: {
+        ...this.state.formControls,
+        [name]: {
+          ...this.state.formControls[name],
+          value
+        }
+      }
+    });
   };
-  */
+
+  formSubmitHandler = (e) => {
+    e.preventDefault();
+    // console.dir(this.state.formControls);
+    // ToDo Validate information
+    const newContact = {
+      id: Date.now(),
+      name:this.state.formControls.name.value,
+      address1:this.state.formControls.address1.value,
+      address2:this.state.formControls.address2.value,
+      suburb:this.state.formControls.suburb.value,
+      state:this.state.formControls.state.value,
+      country:this.state.formControls.country.value,
+      email:this.state.formControls.email.value,
+      phone:this.state.formControls.phone.value,
+      mobile:this.state.formControls.mobile.value
+    };
+    const contacts = [...this.state.contacts, newContact];
+    this.setState({
+      contacts: contacts
+  });
+    // console.log(this.state.contacts)
+  };
+
+
 
   myClickEvent = (event) => {
     console.log(this);
@@ -157,8 +187,8 @@ export default class App extends Component {
       return (
           <li
               key={item.id}
-              onClick={console.log(item.id)}
-              >
+              onClick={() =>console.log("hello")}
+          >
                 {item.name}
           </li>)
     });
@@ -184,8 +214,11 @@ export default class App extends Component {
                   </Col>
                   <Col>
                     <input
-                        id="contactName"
                         type="text"
+                        name="name"
+                        value={this.state.formControls.name.value}
+                        onChange={this.changeHandler}
+                        id="contactName"
                         placeholder="Contact Name"
                         />
                   </Col>
@@ -197,8 +230,11 @@ export default class App extends Component {
                   </Col>
                   <Col>
                     <input
-                        id="address1"
                         type="text"
+                        name="address1"
+                        value={this.state.formControls.address1.value}
+                        onChange={this.changeHandler}
+                        id="address1"
                         placeholder="Contact Address"/>
                   </Col>
                 </Row>
@@ -209,8 +245,11 @@ export default class App extends Component {
                   </Col>
                   <Col>
                     <input
-                        id="address2"
                         type="text"
+                        name="address2"
+                        value={this.state.formControls.address2.value}
+                        onChange={this.changeHandler}
+                        id="address2"
                         placeholder="Contact Address 2"/>
                   </Col>
                 </Row>
@@ -221,8 +260,11 @@ export default class App extends Component {
                   </Col>
                   <Col>
                     <input
-                        id="suburb"
                         type="text"
+                        name="suburb"
+                        value={this.state.formControls.suburb.value}
+                        onChange={this.changeHandler}
+                        id="suburb"
                         placeholder="Contact Suburb"/>
                   </Col>
                 </Row>
@@ -233,8 +275,11 @@ export default class App extends Component {
                   </Col>
                   <Col>
                     <input
-                        id="state"
                         type="text"
+                        name="state"
+                        value={this.state.formControls.state.value}
+                        onChange={this.changeHandler}
+                        id="state"
                         placeholder="Contact State"/>
                   </Col>
                 </Row>
@@ -245,8 +290,11 @@ export default class App extends Component {
                   </Col>
                   <Col>
                     <input
-                        id="country"
                         type="text"
+                        name="country"
+                        value={this.state.formControls.country.value}
+                        onChange={this.changeHandler}
+                        id="country"
                         placeholder="Contact Country"/>
                   </Col>
                 </Row>
@@ -257,8 +305,11 @@ export default class App extends Component {
                   </Col>
                   <Col>
                     <input
-                        id="email"
                         type="text"
+                        name="email"
+                        value={this.state.formControls.email.value}
+                        onChange={this.changeHandler}
+                        id="email"
                         placeholder="Contact Email"/>
                   </Col>
                 </Row>
@@ -269,8 +320,11 @@ export default class App extends Component {
                   </Col>
                   <Col>
                     <input
-                        id="phone"
                         type="text"
+                        name="phone"
+                        value={this.state.formControls.phone.value}
+                        onChange={this.changeHandler}
+                        id="phone"
                         placeholder="Contact Phone"/>
                   </Col>
                 </Row>
@@ -281,8 +335,11 @@ export default class App extends Component {
                   </Col>
                   <Col>
                     <input
-                        id="mobile"
                         type="text"
+                        name="mobile"
+                        value={this.state.formControls.mobile.value}
+                        onChange={this.changeHandler}
+                        id="mobile"
                         placeholder="Contact Mobile"/>
                   </Col>
                 </Row>
@@ -293,7 +350,7 @@ export default class App extends Component {
                   </Col>
                   <Col>
                     <button>Cancel</button>
-                    <button onClick={this.addContact}>Save</button>
+                    <button onClick={this.formSubmitHandler}>Save</button>
                   </Col>
                 </Row>
 
