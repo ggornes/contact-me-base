@@ -99,6 +99,7 @@ export default class App extends Component {
   };
 
   formSubmitHandler = (e) => {
+    // ie addContact
     e.preventDefault();
     // console.dir(this.state.formControls);
     // ToDo Validate information
@@ -119,13 +120,24 @@ export default class App extends Component {
       contacts: contacts
   });
     // console.log(this.state.contacts)
+    this.deleteFields();
   };
 
 
 
-  myClickEvent = (event) => {
-    console.log(this);
+  myClickEvent = (e) => {
+    console.log(this.state.contacts.id);
   };
+
+
+
+  getContactIndex = (myId) => {
+    const index = this.state.contacts.findIndex(x => x.id === myId);
+    console.log(this.state.contacts.findIndex(x => x.id === myId));
+    console.log(this.state.contacts[index]);
+
+  };
+
 
   showContactDetails = (event) => {
     event.preventDefault();
@@ -136,36 +148,7 @@ export default class App extends Component {
 
   };
 
-
-  addContact = (event) => {
-    event.preventDefault();
-    // ToDo validations
-    const newContact = {
-      id: Date.now(),
-      name:document.getElementById("contactName").value,
-      address1:document.getElementById("address1").value,
-      address2:document.getElementById("address2").value,
-      suburb:document.getElementById("suburb").value,
-      state:document.getElementById("state").value,
-      country:document.getElementById("country").value,
-      email:document.getElementById("email").value,
-      phone:document.getElementById("phone").value,
-      mobile:document.getElementById("mobile").value
-    };
-
-    console.log(newContact);
-
-    const contacts =[...this.state.contacts, newContact];
-    this.setState({
-      contacts: contacts
-    });
-    // const contactText = event.target.value;
-    // console.log(this.state.contacts);
-
-    this.deleteFields();
-
-
-  };
+  
 
   deleteFields = () => {
     document.getElementById("contactName").value="";
@@ -182,12 +165,12 @@ export default class App extends Component {
   render() {
     // console.log(this);
 
-    const contacts = this.state.contacts.map(function(item){
+    const contacts = this.state.contacts.map((item) => {
 
       return (
           <li
               key={item.id}
-              onClick={() =>console.log("hello")}
+              onClick={e => this.getContactIndex(item.id)}
           >
                 {item.name}
           </li>)
