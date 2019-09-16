@@ -135,8 +135,42 @@ export default class App extends Component {
 
   getContactIndex = (myId) => {
     const index = this.state.contacts.findIndex(x => x.id === myId);
-    console.log(this.state.contacts.findIndex(x => x.id === myId));
+    //console.log(this.state.contacts.findIndex(x => x.id === myId));
     console.log(this.state.contacts[index]);
+
+    this.setState({
+      formControls: {
+        name: {
+          value: this.state.contacts[index].name
+        },
+        address1: {
+          value: this.state.contacts[index].address1
+        },
+        address2: {
+          value: this.state.contacts[index].address2
+        },
+        suburb: {
+          value: this.state.contacts[index].suburb
+        },
+        state: {
+          value: this.state.contacts[index].state
+        },
+        country: {
+          value: this.state.contacts[index].country
+        },
+        email: {
+          value: this.state.contacts[index].email
+        },
+        phone: {
+          value: this.state.contacts[index].phone
+        },
+        mobile: {
+          value: this.state.contacts[index].mobile
+        }
+      }
+    });
+
+
 
   };
 
@@ -150,19 +184,46 @@ export default class App extends Component {
 
   };
 
+  cancelClick = (e) => {
+    e.preventDefault();
+    this.deleteFields();
+  };
 
 
   deleteFields = () => {
-    console.log("hey");
-    document.getElementById("contactName").value="";
-    document.getElementById("address1").value="";
-    document.getElementById("address2").value="";
-    document.getElementById("suburb").value="";
-    document.getElementById("state").value="";
-    document.getElementById("country").value="";
-    document.getElementById("email").value="";
-    document.getElementById("phone").value="";
-    document.getElementById("mobile").value="";
+
+
+    this.setState({
+      formControls: {
+        name: {
+          value: ''
+        },
+        address1: {
+          value: ''
+        },
+        address2: {
+          value: ''
+        },
+        suburb: {
+          value: ''
+        },
+        state: {
+          value: ''
+        },
+        country: {
+          value: ''
+        },
+        email: {
+          value: ''
+        },
+        phone: {
+          value: ''
+        },
+        mobile: {
+          value: ''
+        }
+      }
+    });
   };
 
   render() {
@@ -335,7 +396,7 @@ export default class App extends Component {
 
                   </Col>
                   <Col>
-                    <button>Cancel</button>
+                    <button onClick={this.cancelClick}>Cancel</button>
                     <button onClick={this.formSubmitHandler}>Save</button>
                   </Col>
                 </Row>
