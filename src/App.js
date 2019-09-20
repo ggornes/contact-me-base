@@ -10,6 +10,9 @@ export default class App extends Component {
     super(props);
     this.state = {
       formControls: {
+        id: {
+          value: ''
+        },
         name: {
           value: ''
         },
@@ -101,30 +104,69 @@ export default class App extends Component {
   formSubmitHandler = (e) => {
     // ie addContact
     e.preventDefault();
-    // console.dir(this.state.formControls);
+
     // ToDo Validate information
-    const newContact = {
-      id: Date.now(),
-      name:this.state.formControls.name.value,
-      address1:this.state.formControls.address1.value,
-      address2:this.state.formControls.address2.value,
-      suburb:this.state.formControls.suburb.value,
-      state:this.state.formControls.state.value,
-      country:this.state.formControls.country.value,
-      email:this.state.formControls.email.value,
-      phone:this.state.formControls.phone.value,
-      mobile:this.state.formControls.mobile.value
-    };
-    const contacts = [...this.state.contacts, newContact];
-    this.setState({
-      contacts: contacts
-  });
-    // console.log(this.state.contacts)
+
+
+
+    const tempId = this.state.formControls.id.value;
+
+
+    if (tempId !== '') {
+      // if tempId is empty, it means we are trying to update an existing contact
+      // so we have to find the index of that contact
+      const index = this.state.contacts.findIndex(x => x.id == tempId);
+      //console.log(index);
+
+      // get the contacts from state
+      const contactsList = [...this.state.contacts];
+
+      // edit the current contact
+      contactsList[index] = {
+        id:this.state.formControls.id.value,
+        name:this.state.formControls.name.value,
+        address1:this.state.formControls.address1.value,
+        address2:this.state.formControls.address2.value,
+        suburb:this.state.formControls.suburb.value,
+        state:this.state.formControls.state.value,
+        country:this.state.formControls.country.value,
+        email:this.state.formControls.email.value,
+        phone:this.state.formControls.phone.value,
+        mobile:this.state.formControls.mobile.value
+      };
+
+      // set the new state with the updated contact information
+      this.setState({
+        contacts: contactsList
+      });
+
+      //console.log(contactsList);
+
+      // if we are creating a new contact
+    } else {
+
+      const newContact = {
+        id: Date.now(),
+        name:this.state.formControls.name.value,
+        address1:this.state.formControls.address1.value,
+        address2:this.state.formControls.address2.value,
+        suburb:this.state.formControls.suburb.value,
+        state:this.state.formControls.state.value,
+        country:this.state.formControls.country.value,
+        email:this.state.formControls.email.value,
+        phone:this.state.formControls.phone.value,
+        mobile:this.state.formControls.mobile.value
+      };
+      const newListOfContacts = [...this.state.contacts, newContact];
+      this.setState({
+        contacts: newListOfContacts
+      });
+    }
+
     this.deleteFields();
 
 
   };
-
 
 
   myClickEvent = (e) => {
@@ -136,10 +178,13 @@ export default class App extends Component {
   getContactIndex = (myId) => {
     const index = this.state.contacts.findIndex(x => x.id === myId);
     //console.log(this.state.contacts.findIndex(x => x.id === myId));
-    console.log(this.state.contacts[index]);
+    console.log(this.state.contacts[index].id);
 
     this.setState({
       formControls: {
+        id: {
+          value: this.state.contacts[index].id.toString()
+        },
         name: {
           value: this.state.contacts[index].name
         },
@@ -195,6 +240,9 @@ export default class App extends Component {
 
     this.setState({
       formControls: {
+        id: {
+          value: ''
+        },
         name: {
           value: ''
         },
@@ -255,6 +303,21 @@ export default class App extends Component {
             <Col xs="12" sm="3">
               <h1> ADD/EDIT/SHOW</h1>
               <form>
+                <Row>
+                  <Col>
+                    <label>Id:</label>
+                  </Col>
+                  <Col>
+                    <input
+                      type="text"
+                      name="id"
+                      value={this.state.formControls.id.value}
+                      onChange={this.changeHandler}
+                      id="contactId"
+                      disabled="enabled"
+                      />
+                  </Col>
+                </Row>
                 <Row>
                   <Col>
                     <label>Name:</label>
